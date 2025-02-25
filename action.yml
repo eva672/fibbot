@@ -1,18 +1,19 @@
 name: fibbot
-descripion: "A Rust program that prints "Hello, world!" when executed"
- runs:
- inputs:
-   enable_fib: 
-    description: "check if fib-program is enable"
+description: an action to confirm hello world printed on logs
+
+inputs:
+  enable_fib:
+    description: "variable verifies if fib-program is enabled or not"
     required: false
     default: true
-   max_threshold:
-    description: "take the maximum number to enter"
-    required: false
-    default: '1000000'
-  runs:
-   using: "docker"
-   image: "Dockerfile"
-   args: 
-       - ${{ input.enable_fib }}
-       - ${{ input.max_threshold }}
+  max_threshold: 
+    description: "provides the max fib value to be used for fib-program"
+    required: true
+    default: '10000'
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.enable_fib }}
+    - ${{ inputs.max_threshold }}
