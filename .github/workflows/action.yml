@@ -9,10 +9,6 @@ jobs:
       - name: Build and run action
         id: run-action
         run: |
-          docker build -t my_math_action .
-          docker run --rm my_math_action 10 5
-      - name: Check outputs
-        run: |
-          echo "Sum: ${{ steps.run-action.outputs.sum }}"
-          echo "Difference: ${{ steps.run-action.outputs.difference }}"
+          docker build -t my_action .
+          docker run --rm my_action 
  
