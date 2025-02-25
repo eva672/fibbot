@@ -1,15 +1,18 @@
-name: "My Hello World Action"
+name: fibbot
 descripion: "A Rust program that prints "Hello, world!" when executed"
  runs:
- input:
-    enable_fib: 
-    description: "enable or not"
+ inputs:
+   enable_fib: 
+    description: "check if fib-program is enable"
     required: false
-    default: 
- output: 
-    max_threshold:
+    default: true
+   max_threshold:
     description: "take the maximum number to enter"
     required: false
-    default: 1000000
+    default: '1000000'
+  runs:
    using: "docker"
    image: "Dockerfile"
+   args: 
+       - ${{ input.enable_fib }}
+       - ${{ input.max_threshold }}
