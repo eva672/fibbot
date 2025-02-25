@@ -1,5 +1,15 @@
 name: "My Hello World Action"
 descripion: "A Rust program that prints "Hello, world!" when executed"
  runs:
+ input:
+    enable_fib: 
+    description: "enable or not"
+    required: false
+    default: 
+ output: 
+    max_threshold:
+    description: "take the maximum number to enter"
+    required: false
+    default: 1000000
    using: "docker"
    image: "Dockerfile"
