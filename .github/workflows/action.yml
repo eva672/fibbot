@@ -1,22 +1,18 @@
-name: Rust
-
-on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-
-env:
-  CARGO_TERM_COLOR: always
-
+name: Integration Tests
+on: [push, pull_request]
 jobs:
-  build:
-
+  test-action:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Build and run action
+        id: run-action
+        run: |
+          docker build -t my_math_action .
+          docker run --rm my_math_action 10 5
+      - name: Check outputs
+        run: |
+          echo "Sum: ${{ steps.run-action.outputs.sum }}"
+          echo "Difference: ${{ steps.run-action.outputs.difference }}"
+ 
