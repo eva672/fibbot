@@ -51,5 +51,5 @@ fn main2() {
 
 mod extract_numbers;
 mod pull_request;
-mod fib-calculator;
+mod fib_calculator;
 
