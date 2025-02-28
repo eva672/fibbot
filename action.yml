@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 name: Rust
 
 on:
@@ -41,4 +41,3 @@ runs:
   args:
     - ${{ inputs.enable_fib }}
     - ${{ inputs.max_threshold }}
->>>>>>> 3666edecc8b8325ae19f7d7d9bf526579d680d2e
