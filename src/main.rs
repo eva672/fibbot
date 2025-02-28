@@ -20,11 +20,7 @@ fn main() {
     } else {
         println!("\n Fibonacci program is disabled");
     }
-    fn main() {
-        let sample_content = "This is a sample string with numbers 12; 13 , 02 02abcu1a-23egtj2,--12-29 in it.";
-        let numbers = extract_numbers(sample_content);
-        println!("{:?}", numbers);
-    }
+    
     
 } 
 
