@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: Rust
 
 on:
@@ -20,3 +21,24 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+=======
+name: fibbot
+description: an action to confirm hello world printed on logs
+
+inputs:
+  enable_fib:
+    description: "variable verifies if fib-program is enabled or not"
+    required: false
+    default: true
+  max_threshold: 
+    description: "provides the max fib value to be used for fib-program"
+    required: true
+    default: '10000'
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.enable_fib }}
+    - ${{ inputs.max_threshold }}
+>>>>>>> 3666edecc8b8325ae19f7d7d9bf526579d680d2e
