@@ -40,4 +40,4 @@ runs:
   image: "Dockerfile"
   args:
     - ${{ inputs.enable_fib }}
-    - ${{ inputs.max_threshold }}
+    - ${{ inputs.max_threshold }} 
