@@ -1,47 +1,22 @@
-# Build stage
-FROM rust:latest as builder
+# Use an official Rust runtime as a parent image
+FROM rust:latest
 
+# Set the working directory in the container
 WORKDIR /app
 
-# Install dependencies for musl-based static linking
-RUN apt update && apt install -y musl-tools musl-dev libssl-dev pkg-config && rustup target add x86_64-unknown-linux-musl
+# Copy the current directory contents into the container at /app
+COPY . .
 
-# Set up OpenSSL for musl
-RUN apt install -y build-essential
-RUN wget https://www.openssl.org/source/openssl-1.1.1w.tar.gz && \
-    tar -xzf openssl-1.1.1w.tar.gz && \
-    cd openssl-1.1.1w && \
-    ./Configure --prefix=/usr/local/musl --openssldir=/usr/local/musl/ssl no-shared no-zlib no-async linux-x86_64 && \
-    make depend && \
-    make -j$(nproc) && \
-    make install
+# Build the Rust project
+RUN cargo build --release
 
-# Set environment variables for OpenSSL
-ENV OPENSSL_DIR=/usr/local/musl
-ENV OPENSSL_STATIC=1
+# Debugging step: List the contents of the /app directory
+RUN ls -la /app
 
-# Copy Cargo files first for caching
-COPY Cargo.toml Cargo.lock ./
-RUN mkdir src && echo "fn main() {}" > src/main.rs  
-RUN cargo build --release --target x86_64-unknown-linux-musl  
+# Debugging step: List the contents of the /target/release directory
+RUN ls -la /app/target/release
 
-# Now copy actual source code
-COPY src ./src
-
-# Build the actual release binary
-RUN cargo build --release --target x86_64-unknown-linux-musl
-
-# Rename binary for clarity
-RUN mv target/x86_64-unknown-linux-musl/release/fibbot-test /app/fibbot-test
-
-# Runtime stage
-FROM alpine:latest
-
-WORKDIR /app
-
-# Copy compiled Rust binary
-COPY --from=builder /app/fibbot-test /usr/local/bin/fibbot-test
-RUN chmod +x /usr/local/bin/fibbot-test
-
-# Run the program
-CMD ["/usr/local/bin/fibbot-test"]
+# Run the executable
+#ENTRYPOINT ["/app/target/release/fibbot-test"]
+ENTRYPOINT ["/app/target/release/fibbot-test"]
+ 
