@@ -1,3 +1,4 @@
+
 # Use an official Rust runtime as a parent image
 FROM rust:latest
 
