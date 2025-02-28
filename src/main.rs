@@ -1,104 +1,6 @@
-<<<<<<< HEAD
-use crate::number::extract_numbers;
-//fn main() {
-  //  println!("Hello, world!");
-     
-//use std::env;
-
-  //  let args: Vec<String> = env::args().collect();
-    //if args.len() < 3 {
-      //  eprintln!("Usage: {} <enable_fib> <max_threshold>", args[1]);
-        //return;
-    //}
-
-    //let enable_fib = &args[1];
-    //let max_threshold = &args[2];
-
-    //println!("\n enable_fib: {}", enable_fib);
-    //println!("\n max_threshold: {}", max_threshold);
-
-    //if enable_fib == "true" {
-        // Your Fibonacci logic here
-      //  println!("\n Fibonacci program is enabled with max threshold: {}", max_threshold);
-    //} else {
-      //  println!("\n Fibonacci program is disabled");
-    //}
-    
-    fn main() {
-        let sample_content = "This is a sample string with numbers 12; 13 , 02 02abcu1a-23egtj2,--12-29 in it.";
-        let numbers = extract_numbers(sample_content);
-        println!("{:?}", numbers);
-        
-    
-    use crate::fib::fibonacci_iterative;
-
-
-    let sample_content = "This is a sample string with numbers 12; 13 , 02 02abcu1a-23egtj2,--12-29 in it.";
-    let numbers = extract_numbers(sample_content);
-    println!("{:?}", numbers);
-
-    let n = 100; // Example input
-    println!("Fib of {}: {}", n, fibonacci_iterative(n));
-    
-}
-
-
-mod number;
-mod fib;
-    
-//} 
-=======
 use std::env;
-
-use octocrab::{models::{repos::DiffEntry, pulls::PullRequest, repos::Content}, Octocrab, Page};
-
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error >>{
-    let github_repository = env::var("GITHUB_REPOSITORY").unwrap_or_else(|_| "eva672/fibbot".to_string());
-    let github_repository=  github_repository.split("/").collect::<Vec<&str>>();
-    let owner = github_repository[0];
-    let repo = github_repository[1];
-
-let pr = octocrab::instance().pulls( owner,  repo).list_files(1).await?;
-println!("{:?}", pr);
-let path = &pr.items.first().unwrap().patch.clone().unwrap();
-let numbers= extract_numbers::extract_numbers(&path);
-println!("{:?}",numbers);
-let result=main2();
-println!("{:?}",result);
-
-Ok(()) 
-
-}
-fn main2() {
-    println!("Hello, world!");
-    use std::env;
-
-    let args: Vec<String> = env::args().collect();
-    if args.len() < 3 {
-        eprintln!("Usage: {} <enable_fib> <max_threshold>", args[1]);
-        return;
-    }
-
-    let enable_fib = &args[1];
-    let max_threshold = &args[2];
-
-    println!("\n enable_fib: {}", enable_fib);
-    println!("\n max_threshold: {}", max_threshold);
-
-    if enable_fib == "true" {
-        // Your Fibonacci logic here
-        println!("\n Fibonacci program is enabled with max threshold: {}", max_threshold);
-    } else {
-        println!("\n Fibonacci program is disabled");
-        
-    }
-    
- 
-} 
-use std::env;
-
-use fib_calculator::fibbo;
+use extract_number::extract_numbers;
+use fib_calculator::fibonacci_iterative;
 use num_bigint::ToBigInt;
 use octocrab::{ models::{ repos::DiffEntry, pulls::PullRequest, repos::Content }, Octocrab, Page };
 
@@ -116,7 +18,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
     println!("{:?}", pr);
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
-    let numbers = extract_numbers::extract_numbers(&path);
+    let numbers = extract_numbers(&path);
     println!("{:?}", numbers);
 
     let args: Vec<String> = env::args().collect();
@@ -136,7 +38,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
         println!("{:?}", pr);
         let path = &pr.items.first().unwrap().patch.clone().unwrap();
-        let numbers = extract_numbers::extract_numbers(&path);
+        let numbers = extract_numbers(&path);
 
         for num in numbers {
             //println!("{}", num);
@@ -145,7 +47,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             if max_threshold.parse::<i32>().unwrap() > num {
                 //let num = num.to_bigint();
-                let fib = fibbo(num);
+                let fib =fibonacci_iterative(num.try_into().unwrap()); 
                 println!("\n the fib of {} is : {} \n", num, fib);
             } else if max_threshold.parse::<i32>().unwrap() < num {
                 println!("\n number() is greater than (max_threshold){} \n", num);
@@ -166,8 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 
-mod extract_numbers;
+mod extract_number;
 mod pull_request;
 mod fib_calculator;
-
->>>>>>> 3666edecc8b8325ae19f7d7d9bf526579d680d2e
+mod fib;

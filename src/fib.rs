@@ -1,4 +1,4 @@
-pub fn fibonacci_iterative(n: u32) -> u32 {
+pub fn fibonacci_iterative(n: i32) -> i32 {
     if n == 0 {
         return 0;
     } else if n == 1 {
