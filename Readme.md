@@ -1,4 +1,4 @@
-**FIBOT GITHUB ACTION**
+## FIBOT GITHUB ACTION
 This documentation will help or guide you on the projects .
 
 
@@ -6,6 +6,12 @@ This documentation will help or guide you on the projects .
 
 Develop a GitHub Action in Rust that scans pull request content for numbers, calculates their Fibonacci numbers, and posts a comment with the results. The action will support two parameters (e.g., a flag to enable Fibonacci calculation and a threshold limit).
 
+- Create a rust project from your terminal using the command ``cargo new fibbot``
+- After creating the directory , run the command ``code .`` that will take directly in VSC make sure you are on your project directory
+- To start the project you should create a Github repository where you will push your work
+- After all been set you can start working on your project.
+
+To give you like a small understanding of the project the following may be of help;
 
 1. **GITHUB ACTIONS**
 GitHub Actions enables automation of workflows directly in your GitHub repository, providing a way to automate tasks like building, testing, and deploying code.
@@ -50,9 +56,10 @@ If you want to see all your action logs or a demonstration that your code is act
 - When you are in the Action you click new action 
 - They will show you different templates you chose one of them and configure it with any name you want
 - For example if you take the rust template you can rename it to any name of your choice and work on it .
-
+2. **DOCKER**
+In this projects we will have to use Dockerfile which is a text file that contains instructions for building and configuring a Docker images.
 **EXTRACTION**
-Here is all about writing functions that will help in extraction of numerical valuesfrom a pull request(pr) .
+Here is all about writing functions that will help in extraction of numerical values from a pull request(PR) .
 You have to do the following;
 
 - You have to write function that extracts only numbers in a mix string (meaning a string having both letters ,numbers ,special characters etc..)
@@ -61,12 +68,21 @@ write another function for a fibonacci calculator that will calculate the fib nu
 - If you want to run the code you can use ``cargo run`` if want to include pameters use ``cargo run "" ""``
 
 **NB**:A fibonacci sequence is a series of numbers where each number is the sum of the two preceding numbers.
+
 **COMBINATION**
 Here you have to combine the two writen function so that your action should process a PR content,compute fibonacci numbers for extracted values and post a comment with the result.
 
 - You can refer your self to the Github rest api using https://docs.github.com/en/rest?apiVersion=2022-11-28
 - You need a personal access token (PAT) that you can get from your repository settings on github.
 **NB** : Make sure you PAT is private 
+
+At the end of this documentation you shopuld able to have a fully functioning GitHub Action with a successful execution on pull requests.
+
+
+
+
+
+Hope this Documentation will be or is helpful to you
 
 
 

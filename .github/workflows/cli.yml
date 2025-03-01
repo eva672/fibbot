@@ -1,12 +1,12 @@
 name: Integration Tests
 on: 
- push:
- pull_request:
-    types: [opened, synchronize]
+ pull_request_type:
+  types: [opened, synchronize]
 
 permissions:
   pull-requests: write
   contents: read
+  issues: write
 
 # permissions: [opened, synchronize]
 jobs:
