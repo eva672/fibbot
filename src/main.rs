@@ -2,6 +2,7 @@ use std::env;
 use extract_number::extract_numbers;
 use fib_calculator::fibonacci_iterative;
 use post::post_comment;
+use pull_request::get_pr;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -19,9 +20,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     .parse::<u64>()
     .expect("invalid value");
 
-    let pr = octocrab::instance().pulls(owner, repo).list_files(pr_number).await?;
+    let pr = get_pr().await;
     println!("{:?}", pr);
-    let path = &pr.items.first().unwrap().patch.clone().unwrap();
+    let path = &pr.unwrap().items.first().unwrap().patch.clone().unwrap();
     let numbers = extract_numbers(&path);
     println!("{:?}", numbers);
 
