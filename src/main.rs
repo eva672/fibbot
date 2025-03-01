@@ -14,11 +14,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let github_repository = github_repository.split("/").collect::<Vec<&str>>();
     let owner = github_repository[0];
     let repo = github_repository[1];
-
+    
     let pr_number: u64 = env::var("PR_NUMBER")
     .expect("couldn't get pr_number")
     .parse::<u64>()
     .expect("invalid value");
+
+    println!("The pull request number is: {}", pr_number);
 
     let pr = get_pr().await;
     println!("{:?}", pr);
@@ -79,7 +81,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     //         1
     //     }
     // };
-    println!("The pull request number is: {}", pr_number);
 //     if let Err(e) = post_comment(&response).await {
 //         eprintln!("Error posting comment: {}", e);
 //     }
