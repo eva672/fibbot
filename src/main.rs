@@ -46,7 +46,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             if max_threshold.parse::<i32>().unwrap() > num {
                 //let num = num.to_bigint();
-                let fib:i32 =fibonacci_iterative(num.try_into().unwrap()).try_into().unwrap(); 
+                let fib: i32 =fibonacci_iterative(num.try_into().unwrap()).try_into().unwrap(); 
                 println!("\n the fib of {} is : {} \n", num, fib);
                 result.push(fib);
             } else if max_threshold.parse::<i32>().unwrap() < num {
