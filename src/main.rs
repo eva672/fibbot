@@ -1,8 +1,6 @@
 use std::env;
 use extract_number::extract_numbers;
 use fib_calculator::fibonacci_iterative;
-use num_bigint::ToBigInt;
-use octocrab::{ models::{ repos::DiffEntry, pulls::PullRequest, repos::Content }, Octocrab, Page };
 use post::post_comment;
 
 #[tokio::main]
@@ -88,5 +86,4 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 mod extract_number;
 mod pull_request;
 mod fib_calculator;
-mod fib;
 mod post; 
