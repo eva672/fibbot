@@ -56,3 +56,4 @@ jobs:
 The metadata file, action.yml, is essential for defining a custom action. It contains information about the action’s behavior, inputs, and outputs.
 
 - You can create an action.yml file in your GitHub repository
+`1
