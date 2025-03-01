@@ -2,7 +2,6 @@ use std::env;
 use extract_number::extract_numbers;
 use fib_calculator::fibonacci_iterative;
 use post::post_comment;
-use pull_request::get_pr;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -14,17 +13,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let github_repository = github_repository.split("/").collect::<Vec<&str>>();
     let owner = github_repository[0];
     let repo = github_repository[1];
-    
-    let pr_number: u64 = env::var("PR_NUMBER")
-    .expect("couldn't get pr_number")
-    .parse::<u64>()
-    .expect("invalid value");
 
-    println!("The pull request number is: {}", pr_number);
-
-    let pr = get_pr().await;
+    let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
     println!("{:?}", pr);
-    let path = &pr.unwrap().items.first().unwrap().patch.clone().unwrap();
+    let path = &pr.items.first().unwrap().patch.clone().unwrap();
     let numbers = extract_numbers(&path);
     println!("{:?}", numbers);
 
@@ -42,7 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if enable_fib == "true" {
         // Your Fibonacci logic here
-        let pr = octocrab::instance().pulls(owner, repo).list_files(pr_number).await?;
+        let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
         println!("{:?}", pr);
         let path = &pr.items.first().unwrap().patch.clone().unwrap();
         let numbers = extract_numbers(&path);
@@ -73,14 +65,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n Fibonacci program is disabled");
         println!("\n enable your program with a true argument");
     }
-    
-    // {
-    //     Ok(pr_str) if pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
-    //     _ => {
-    //         println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
-    //         1
-    //     }
-    // };
+    let pr_number: u64 = match env::var("PR_NUMBER") {
+        Ok(pr_str) if pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
+        _ => {
+            println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
+            1
+        }
+    };
+    println!("The pull request number is: {}", pr_number);
 //     if let Err(e) = post_comment(&response).await {
 //         eprintln!("Error posting comment: {}", e);
 //     }
