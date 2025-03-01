@@ -67,12 +67,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n Fibonacci program is disabled");
         println!("\n enable your program with a true argument");
     }
-     let pr_number: u64 = env::var("PR_NUMBER")
-     .unwrap_or_else(|_| "1".to_string())
-     .parse::<u64>()
-     .expect("Invalid PR_NUMBER");
- println!("the pull_request number is: {}",pr_number);
-       
+    let pr_number: u64 = match env::var("PR_NUMBER") {
+        Ok(pr_str) if !pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
+        _ => {
+            println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
+            1
+        }
+    };
+    println!("The pull request number is: {}", pr_number);
 //     if let Err(e) = post_comment(&response).await {
 //         eprintln!("Error posting comment: {}", e);
 //     }
