@@ -1,3 +1,4 @@
+[![Integration Tests](https://github.com/eva672/fibbot/actions/workflows/cli.yml/badge.svg)](https://github.com/eva672/fibbot/actions/workflows/cli.yml)
 This documentation will help or guide you on the projects .
 
 **INTRODUCTION**
