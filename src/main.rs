@@ -36,7 +36,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if enable_fib == "true" {
         // Your Fibonacci logic here
-        let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
+        let pr = octocrab::instance().pulls(owner, repo).list_files(2).await?;
         println!("{:?}", pr);
         let path = &pr.items.first().unwrap().patch.clone().unwrap();
         let numbers = extract_numbers(&path);
