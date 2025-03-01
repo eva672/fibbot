@@ -14,7 +14,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let owner = github_repository[0];
     let repo = github_repository[1];
 
-    let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
+    let pr = octocrab::instance().pulls(owner, repo).list_files(7).await?;
     println!("{:?}", pr);
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
     let numbers = extract_numbers(&path);
@@ -34,7 +34,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if enable_fib == "true" {
         // Your Fibonacci logic here
-        let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
+        let pr = octocrab::instance().pulls(owner, repo).list_files(7).await?;
         println!("{:?}", pr);
         let path = &pr.items.first().unwrap().patch.clone().unwrap();
         let numbers = extract_numbers(&path);
@@ -69,7 +69,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         Ok(pr_str) if pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
         _ => {
             println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
-            1
+            7
         }
     };
     println!("The pull request number is: {}", pr_number);
