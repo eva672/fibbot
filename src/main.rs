@@ -16,7 +16,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let owner = github_repository[0];
     let repo = github_repository[1];
 
-    let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
+    let pr = octocrab::instance().pulls(owner, repo).list_files(2).await?;
     println!("{:?}", pr);
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
     let numbers = extract_numbers(&path);
