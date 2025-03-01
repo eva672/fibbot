@@ -11,7 +11,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let github_repository = env
         ::var("GITHUB_REPOSITORY")
-        .unwrap_or_else(|_| "t-desmond/fibbot".to_string());
+        .unwrap_or_else(|_| "eva672/fibbot".to_string());
     let github_repository = github_repository.split("/").collect::<Vec<&str>>();
     let owner = github_repository[0];
     let repo = github_repository[1];
@@ -68,7 +68,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n enable your program with a true argument");
     }
      let pr_number: u64 = env::var("PR_NUMBER")
-     .expect("PR_NUMBER not set")
+     .unwrap_or_else(|_| "1".to_string())
      .parse::<u64>()
      .expect("Invalid PR_NUMBER");
  println!("the pull_request number is: {}",pr_number);
