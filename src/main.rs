@@ -14,7 +14,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let owner = github_repository[0];
     let repo = github_repository[1];
 
-    let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
+    let pr_number: u64 = env::var("PR_NUMBER")
+    .expect("couldn't get pr_number")
+    .parse::<u64>()
+    .expect("invalid value");
+
+    let pr = octocrab::instance().pulls(owner, repo).list_files(pr_number).await?;
     println!("{:?}", pr);
     let path = &pr.items.first().unwrap().patch.clone().unwrap();
     let numbers = extract_numbers(&path);
@@ -34,7 +39,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     if enable_fib == "true" {
         // Your Fibonacci logic here
-        let pr = octocrab::instance().pulls(owner, repo).list_files(1).await?;
+        let pr = octocrab::instance().pulls(owner, repo).list_files(pr_number).await?;
         println!("{:?}", pr);
         let path = &pr.items.first().unwrap().patch.clone().unwrap();
         let numbers = extract_numbers(&path);
@@ -65,13 +70,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n Fibonacci program is disabled");
         println!("\n enable your program with a true argument");
     }
-    let pr_number: u64 = match env::var("PR_NUMBER") {
-        Ok(pr_str) if pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
-        _ => {
-            println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
-            1
-        }
-    };
+    
+    // {
+    //     Ok(pr_str) if pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
+    //     _ => {
+    //         println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
+    //         1
+    //     }
+    // };
     println!("The pull request number is: {}", pr_number);
 //     if let Err(e) = post_comment(&response).await {
 //         eprintln!("Error posting comment: {}", e);
