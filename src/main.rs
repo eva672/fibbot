@@ -66,7 +66,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("\n enable your program with a true argument");
     }
     let pr_number: u64 = match env::var("PR_NUMBER") {
-        Ok(pr_str) if !pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
+        Ok(pr_str) if pr_str.is_empty() => pr_str.parse::<u64>().expect("Invalid PR_NUMBER"),
         _ => {
             println!("PR_NUMBER environment variable is not set or is invalid. Defaulting to PR number 1.");
             1
