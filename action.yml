@@ -5,15 +5,23 @@ inputs:
   enable_fib:
     description: "variable verifies if fib-program is enabled or not"
     required: false
-    default: true
-  max_threshold: 
+    default: "true"
+  max_threshold:
     description: "provides the max fib value to be used for fib-program"
     required: true
-    default: '10000'
+    default: "1000"
+  github_token: 
+    description: "getting github"
+    required: true
+  pr_number: 
+    description: "getting github"
+    required: true
+
 
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.enable_fib }}
-    - ${{ inputs.max_threshold }} 
+    - ${{ inputs.max_threshold }}
+    

@@ -1,15 +1,36 @@
 name: Integration Tests
-on: [push, pull_request]
+on: 
+ push:
+ pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  pull-requests: write
+  contents: read
+
+# permissions: [opened, synchronize]
 jobs:
   test-action:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+#      repository-projects: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Set environment variables
+        run: |
+          echo "PR_NUMBER=${GITHUB_EVENT_NUMBER}" >> $GITHUB_ENV
+
       - name: Build and run action
         uses: ./
         with:
           enable_fib: true
           max_threshold: 237
-          
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_number: ${{ env.pr_number}}
+
 

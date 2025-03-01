@@ -3,6 +3,7 @@ use extract_number::extract_numbers;
 use fib_calculator::fibonacci_iterative;
 use num_bigint::ToBigInt;
 use octocrab::{ models::{ repos::DiffEntry, pulls::PullRequest, repos::Content }, Octocrab, Page };
+use post::post_comment;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -39,7 +40,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("{:?}", pr);
         let path = &pr.items.first().unwrap().patch.clone().unwrap();
         let numbers = extract_numbers(&path);
-
+        let mut result:Vec<i32>= Vec::new();
         for num in numbers {
             //println!("{}", num);
             //std::io::stdin().read_line(&mut max_threshold).unwrap();
@@ -47,22 +48,36 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
             if max_threshold.parse::<i32>().unwrap() > num {
                 //let num = num.to_bigint();
-                let fib =fibonacci_iterative(num.try_into().unwrap()); 
+                let fib:i32 =fibonacci_iterative(num.try_into().unwrap()).try_into().unwrap(); 
                 println!("\n the fib of {} is : {} \n", num, fib);
+                result.push(fib);
             } else if max_threshold.parse::<i32>().unwrap() < num {
+
                 println!("\n number() is greater than (max_threshold){} \n", num);
             }
-
+            let pr_content= format!("{:?}", result);
+            post_comment(pr_content.as_str()).await?;
             // std::io::stdin().read_line(&mut num1).unwrap();
             // let num1: f64 = num1.trim().parse().unwrap();
         }
 
         println!("\n Fibonacci program is enabled with max threshold: {} \n ", max_threshold);
         // Example Fibonacci function call
-    } else {
+    } else {    
         println!("\n Fibonacci program is disabled");
         println!("\n enable your program with a true argument");
     }
+     let pr_number: u64 = env::var("PR_NUMBER")
+     .expect("PR_NUMBER not set")
+     .parse::<u64>()
+     .expect("Invalid PR_NUMBER");
+ println!("the pull_request number is: {}",pr_number);
+       
+//     if let Err(e) = post_comment(&response).await {
+//         eprintln!("Error posting comment: {}", e);
+//     }
+ 
+
 
     Ok(())
 }
@@ -72,3 +87,4 @@ mod extract_number;
 mod pull_request;
 mod fib_calculator;
 mod fib;
+mod post; 
